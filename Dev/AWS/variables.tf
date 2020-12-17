@@ -195,7 +195,7 @@ variable "ami" {
 variable "key_name" {
   default = "techadon_keys"
 }
-variable "compute_sg_rules_egress" {
+variable "bastion_sg_rules_egress" {
   description = "List of maps of default seurity group rules egress"
   type        = list(map(string))
   default = [
@@ -207,7 +207,7 @@ variable "compute_sg_rules_egress" {
     },
   ]
 }
-variable "compute_sg_rules_ingress" {
+variable "bastion_sg_rules_ingress" {
   description = "List of maps of default seurity group rules ingress"
   type        = list(map(string))
 

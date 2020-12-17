@@ -3,3 +3,6 @@
 */.terraform.tfstate.lock.info
 */terraform.tfstate.backup
 */*/.terraform
+*/*/terraform.*.*
+*/*/crash.log
+*.tfvars
