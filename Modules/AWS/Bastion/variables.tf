@@ -6,6 +6,7 @@ variable "root_block_device_encrypted" {}
 variable "root_block_device_volume_size" {}
 variable "key_name" {}
 
+variable "compute_sg_rules_ingress" {}
 
 variable "region" {
   type        = string

@@ -56,6 +56,22 @@ variable "private_subnet_cidrs_2" {
     zone2 = ".6.0/24"
   }
 }
+variable "public_subnet_cidrs_1" {
+  description = "CIDRs for the public subnets"
+  default = {
+    zone0 = ".7.0/24"
+    zone1 = ".8.0/24"
+    zone2 = ".9.0/24"
+  }
+}
+variable "public_subnet_cidrs_2" {
+  description = "CIDRs for the public subnets"
+  default = {
+    zone0 = ".10.0/24"
+    zone1 = ".11.0/24"
+    zone2 = ".12.0/24"
+  }
+}
 variable "private_inbound_acl_rules" {
   description = "Private subnets inbound network ACLs"
 
@@ -73,6 +89,35 @@ variable "private_inbound_acl_rules" {
 
 variable "private_outbound_acl_rules" {
   description = "Private subnets outbound network ACLs"
+
+  default = [
+    {
+      rule_number = 100
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "0.0.0.0/0"
+    },
+  ]
+}
+variable "public_inbound_acl_rules" {
+  description = "Public subnets inbound network ACLs"
+
+  default = [
+    {
+      rule_number = 100
+      rule_action = "allow"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_block  = "0.0.0.0/0"
+    },
+  ]
+}
+
+variable "public_outbound_acl_rules" {
+  description = "Public subnets outbound network ACLs"
 
   default = [
     {
@@ -144,5 +189,33 @@ variable "instance_type" {
 variable "ami" {
   default = ""
 }
+variable "key_name" {
+  default = "techadon_keys"
+}
+variable "compute_sg_rules_egress" {
+  description = "List of maps of default seurity group rules egress"
+  type        = list(map(string))
+  default = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = "0.0.0.0/0"
+    },
+  ]
+}
+variable "compute_sg_rules_ingress" {
+  description = "List of maps of default seurity group rules ingress"
+  type        = list(map(string))
 
+  default = [
+    {
+      description = "SSH"
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = "102.182.111.111/32"
+    },
+  ]
+}
 #################################################################################

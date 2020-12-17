@@ -18,6 +18,9 @@ module "requestor_network" {
     private_subnet_cidrs = "${var.private_subnet_cidrs_1}"
     private_outbound_acl_rules = "${var.private_outbound_acl_rules}"
     private_inbound_acl_rules = "${var.private_inbound_acl_rules}"
+    public_subnet_cidrs = "${var.public_subnet_cidrs_1}"
+    public_outbound_acl_rules = "${var.public_outbound_acl_rules}"
+    public_inbound_acl_rules = "${var.public_inbound_acl_rules}"
 }
 
 module "acceptor_network" {
@@ -38,6 +41,9 @@ module "acceptor_network" {
     private_subnet_cidrs = "${var.private_subnet_cidrs_2}"
     private_outbound_acl_rules = "${var.private_outbound_acl_rules}"
     private_inbound_acl_rules = "${var.private_inbound_acl_rules}"
+    public_subnet_cidrs = "${var.public_subnet_cidrs_2}"
+    public_outbound_acl_rules = "${var.public_outbound_acl_rules}"
+    public_inbound_acl_rules = "${var.public_inbound_acl_rules}"
 }
 
 module "vpc_peering" {
@@ -55,18 +61,20 @@ module "vpc_peering" {
   delete_timeout                            = "10m"
 }
 
-module "requester_bastion" {
+module "requestor_bastion" {
   source = "../../Modules/AWS/Bastion"
   ami           = var.ami
   instance_type = var.instance_type
   context = module.this.context
   security_groups         = compact(concat([module.vpc.vpc_default_security_group_id], var.security_groups))
   ingress_security_groups = var.ingress_security_groups
-  subnets                 = module.subnets.public_subnet_ids
+  subnets                 = module.requestor_network.public_subnet_ids
   ssh_user                = var.ssh_user
-  key_name                = module.aws_key_pair.key_name
+  key_name                = var.key_name
+  compute_sg_rules_ingress = var.compute_sg_rules_ingress
+  compute_sg_rules_egress = var.compute_sg_rules_egress
   user_data = var.user_data
-  vpc_id = module.vpc.vpc_id
+  vpc_id = module.requestor_network.aws_vpc
 }
 
 module "storge" {

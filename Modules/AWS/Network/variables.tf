@@ -29,6 +29,9 @@ variable "vpc_cidr_base" {}
 variable "private_outbound_acl_rules" {}
 variable "private_inbound_acl_rules" {}
 variable "private_subnet_cidrs" {}
+variable "public_outbound_acl_rules" {}
+variable "public_inbound_acl_rules" {}
+variable "public_subnet_cidrs" {}
 variable "resource_name" {}
 variable "additional_cidr_blocks" {
   type        = list(string)
