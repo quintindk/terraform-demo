@@ -65,7 +65,6 @@ module "requestor_bastion" {
   source = "../../Modules/AWS/Bastion"
   ami           = var.ami
   instance_type = var.instance_type
-  context = module.this.context
   security_groups         = compact(concat([module.vpc.vpc_default_security_group_id], var.security_groups))
   ingress_security_groups = var.ingress_security_groups
   subnets                 = module.requestor_network.public_subnet_ids
@@ -73,7 +72,7 @@ module "requestor_bastion" {
   key_name                = var.key_name
   compute_sg_rules_ingress = var.compute_sg_rules_ingress
   compute_sg_rules_egress = var.compute_sg_rules_egress
-  user_data = var.user_data
+  user_data = "${file("./UserData/bastion-setup.sh")}"
   vpc_id = module.requestor_network.aws_vpc
 }
 
