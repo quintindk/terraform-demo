@@ -30,5 +30,9 @@ variable "private_outbound_acl_rules" {}
 variable "private_inbound_acl_rules" {}
 variable "private_subnet_cidrs" {}
 variable "resource_name" {}
-
+variable "additional_cidr_blocks" {
+  type        = list(string)
+  description = "A list of additional IPv4 CIDR blocks to associate with the VPC"
+  default     = null
+}
 

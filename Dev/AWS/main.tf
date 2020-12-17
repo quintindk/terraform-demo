@@ -46,8 +46,8 @@ module "vpc_peering" {
   auto_accept                               = true
   requestor_allow_remote_vpc_dns_resolution = true
   acceptor_allow_remote_vpc_dns_resolution  = true
-  requestor_vpc_id                          = module.requestor_vpc.aws_vpc
-  acceptor_vpc_id                           = module.acceptor_vpc.aws_vpc
+  requestor_vpc_id                          = module.requestor_network.aws_vpc
+  acceptor_vpc_id                           = module.acceptor_network.aws_vpc
   create_timeout                            = "5m"
   update_timeout                            = "5m"
   delete_timeout                            = "10m"

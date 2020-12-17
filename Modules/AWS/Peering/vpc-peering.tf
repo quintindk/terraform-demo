@@ -1,5 +1,5 @@
 resource "aws_vpc_peering_connection" "vpc_network_peering" {
-  count       = var.enabled ? 1 : 0
+  count       = 1
   vpc_id      = join("", data.aws_vpc.requestor.*.id)
   peer_vpc_id = join("", data.aws_vpc.acceptor.*.id)
 
@@ -27,9 +27,8 @@ resource "aws_vpc_peering_connection" "vpc_network_peering" {
   }
 }
 
-# Lookup requestor VPC so that we can reference the CIDR
 data "aws_vpc" "requestor" {
-  count = var.enabled ? 1 : 0
+  count = 1
   id    = var.requestor_vpc_id
   tags = merge(
     {
@@ -39,31 +38,30 @@ data "aws_vpc" "requestor" {
   )
 }
 
-# Lookup acceptor VPC so that we can reference the CIDR
 data "aws_vpc" "acceptor" {
-  count = var.enabled ? 1 : 0
+  count = 1
   id    = var.acceptor_vpc_id
   tags = merge(
     {
-      "Name" = "acceptor"
+      "Name" = "acceptor vpc"
     },
     var.global_tags,
   )
 }
 
 data "aws_route_tables" "requestor" {
-  count  = var.enabled ? 1 : 0
+  count  = 1
   vpc_id = join("", data.aws_vpc.requestor.*.id)
   tags = merge(
     {
-      "Name" = "acceptor rt"
+      "Name" = "requestor rt"
     },
     var.global_tags,
   )
 }
 
 data "aws_route_tables" "acceptor" {
-  count  = var.enabled ? 1 : 0
+  count  = 1
   vpc_id = join("", data.aws_vpc.acceptor.*.id)
   tags = merge(
     {
@@ -73,20 +71,18 @@ data "aws_route_tables" "acceptor" {
   )
 }
 
-# Create routes from requestor to acceptor
 resource "aws_route" "requestor" {
-  count                     = var.enabled ? length(distinct(sort(data.aws_route_tables.requestor.0.ids))) * length(data.aws_vpc.acceptor.0.cidr_block_associations) : 0
-  route_table_id            = element(distinct(sort(data.aws_route_tables.requestor.0.ids)), ceil(count.index / length(data.aws_vpc.acceptor.0.cidr_block_associations)))
-  destination_cidr_block    = data.aws_vpc.acceptor.0.cidr_block_associations[count.index % length(data.aws_vpc.acceptor.0.cidr_block_associations)]["cidr_block"]
+  count                     = 1
+  route_table_id            = element(distinct(sort(data.aws_route_tables.requestor[0].ids)), ceil(count.index / 1))
+  destination_cidr_block    = data.aws_vpc.acceptor[0].cidr_block_associations[count.index % 1]["cidr_block"]
   vpc_peering_connection_id = join("", aws_vpc_peering_connection.vpc_network_peering.*.id)
   depends_on                = [data.aws_route_tables.requestor, aws_vpc_peering_connection.vpc_network_peering]
 }
 
-# Create routes from acceptor to requestor
 resource "aws_route" "acceptor" {
-  count                     = var.enabled ? length(distinct(sort(data.aws_route_tables.acceptor.0.ids))) * length(data.aws_vpc.requestor.0.cidr_block_associations) : 0
-  route_table_id            = element(distinct(sort(data.aws_route_tables.acceptor.0.ids)), ceil(count.index / length(data.aws_vpc.requestor.0.cidr_block_associations)))
-  destination_cidr_block    = data.aws_vpc.requestor.0.cidr_block_associations[count.index % length(data.aws_vpc.requestor.0.cidr_block_associations)]["cidr_block"]
+  count                     = 1
+  route_table_id            = element(distinct(sort(data.aws_route_tables.acceptor[0].ids)), ceil(count.index / 1))
+  destination_cidr_block    = data.aws_vpc.requestor[0].cidr_block_associations[count.index % 1]["cidr_block"]
   vpc_peering_connection_id = join("", aws_vpc_peering_connection.vpc_network_peering.*.id)
   depends_on                = [data.aws_route_tables.acceptor, aws_vpc_peering_connection.vpc_network_peering]
 }
