@@ -10,6 +10,16 @@ resource "aws_route_table" "network_private_rt" {
   )
 }
 
+resource "aws_route" "network_igw_route" {
+  count                  = var.az_count
+  route_table_id         = aws_route_table.network_private_rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id         = aws_internet_gateway.network_igw.id
+  timeouts {
+    create = "5m"
+  }
+}
+
 # resource "aws_route" "network_private_nat_route" {
 #   count                  = var.az_count
 #   route_table_id         = aws_route_table.network_private_rt.id

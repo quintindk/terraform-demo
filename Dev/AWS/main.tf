@@ -43,6 +43,8 @@ module "acceptor_network" {
 module "vpc_peering" {
   source                                    = "../../Modules/AWS/Peering"
   global_tags                               = var.global_tags
+  acceptor_cidr_block                       = var.vpc_cidr_block_2
+  requestor_cidr_block                       = var.vpc_cidr_block_1
   auto_accept                               = true
   requestor_allow_remote_vpc_dns_resolution = true
   acceptor_allow_remote_vpc_dns_resolution  = true
@@ -51,6 +53,20 @@ module "vpc_peering" {
   create_timeout                            = "5m"
   update_timeout                            = "5m"
   delete_timeout                            = "10m"
+}
+
+module "requester_bastion" {
+  source = "../../Modules/AWS/Bastion"
+  ami           = var.ami
+  instance_type = var.instance_type
+  context = module.this.context
+  security_groups         = compact(concat([module.vpc.vpc_default_security_group_id], var.security_groups))
+  ingress_security_groups = var.ingress_security_groups
+  subnets                 = module.subnets.public_subnet_ids
+  ssh_user                = var.ssh_user
+  key_name                = module.aws_key_pair.key_name
+  user_data = var.user_data
+  vpc_id = module.vpc.vpc_id
 }
 
 module "storge" {

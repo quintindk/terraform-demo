@@ -8,3 +8,5 @@ variable "acceptor_vpc_id" {}
 variable "create_timeout" {}
 variable "update_timeout" {}
 variable "delete_timeout" {}
+variable "acceptor_cidr_block" {}
+variable "requestor_cidr_block" {}

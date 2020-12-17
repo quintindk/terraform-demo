@@ -74,7 +74,7 @@ data "aws_route_tables" "acceptor" {
 resource "aws_route" "requestor" {
   count                     = 1
   route_table_id            = element(distinct(sort(data.aws_route_tables.requestor[0].ids)), ceil(count.index / 1))
-  destination_cidr_block    = data.aws_vpc.acceptor[0].cidr_block_associations[count.index % 1]["cidr_block"]
+  destination_cidr_block    = var.requestor_cidr_block
   vpc_peering_connection_id = join("", aws_vpc_peering_connection.vpc_network_peering.*.id)
   depends_on                = [data.aws_route_tables.requestor, aws_vpc_peering_connection.vpc_network_peering]
 }
@@ -82,7 +82,7 @@ resource "aws_route" "requestor" {
 resource "aws_route" "acceptor" {
   count                     = 1
   route_table_id            = element(distinct(sort(data.aws_route_tables.acceptor[0].ids)), ceil(count.index / 1))
-  destination_cidr_block    = data.aws_vpc.requestor[0].cidr_block_associations[count.index % 1]["cidr_block"]
+  destination_cidr_block    = var.acceptor_cidr_block
   vpc_peering_connection_id = join("", aws_vpc_peering_connection.vpc_network_peering.*.id)
   depends_on                = [data.aws_route_tables.acceptor, aws_vpc_peering_connection.vpc_network_peering]
 }
