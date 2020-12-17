@@ -1,6 +1,7 @@
 
 
 resource "aws_subnet" "network_private_subnet" {
+  # name = "network_private_subnet_${var.resource_name}"
   count             = var.az_count
   vpc_id            = aws_vpc.network_vpc.id
   cidr_block        = "${var.vpc_cidr_base}${var.private_subnet_cidrs[format("zone%d", count.index)]}"

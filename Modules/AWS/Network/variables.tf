@@ -29,5 +29,6 @@ variable "vpc_cidr_base" {}
 variable "private_outbound_acl_rules" {}
 variable "private_inbound_acl_rules" {}
 variable "private_subnet_cidrs" {}
+variable "resource_name" {}
 
 

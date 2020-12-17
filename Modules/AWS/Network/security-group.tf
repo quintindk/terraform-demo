@@ -1,7 +1,7 @@
 
 
 resource "aws_security_group" "network_default_sg" {
-  name        = "network_default-security-group"
+  name = "network_default_sg_${var.resource_name}"
   description = "Allow HTTP, HTTPS and SSH traffic"
   vpc_id = aws_vpc.network_vpc.id
 

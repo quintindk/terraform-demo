@@ -4,9 +4,9 @@ output "aws_vpc" {
   value = aws_vpc.network_vpc.id
 }
 
-output "aws_internet_gateway" {
-  value = aws_internet_gateway.network_igw.id
-}
+# output "aws_nat_gateway" {
+#   value = aws_nat_gateway.network_nat_gateway.*.id
+# }
 
 output "aws_security_group" {
   value = aws_security_group.network_default_sg.id
