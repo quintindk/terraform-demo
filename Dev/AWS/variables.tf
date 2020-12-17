@@ -186,8 +186,11 @@ variable "s3_storage_name" {
 variable "instance_type" {
   default = "t2.micro"
 }
+variable "ssh_user" {
+  default = "ec2user"
+}
 variable "ami" {
-  default = ""
+  default = "mi-084ef34fdfdd7384c"
 }
 variable "key_name" {
   default = "techadon_keys"
@@ -214,7 +217,7 @@ variable "compute_sg_rules_ingress" {
       from_port   = 22
       to_port     = 22
       protocol    = "tcp"
-      cidr_blocks = "102.182.111.111/32"
+      cidr_blocks = "102.182.111.111/32"//was using personal ip for ssh tests
     },
   ]
 }

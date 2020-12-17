@@ -67,6 +67,11 @@ variable "ingress_security_groups" {
   description = "AWS security group IDs allowed ingress to instance"
 }
 
+variable "egress_security_groups" {
+  type        = list(string)
+  description = "AWS security group IDs allowed egress to instance"
+}
+
 variable "allowed_cidr_blocks" {
   type        = list(string)
   description = "A list of CIDR blocks allowed to connect"
