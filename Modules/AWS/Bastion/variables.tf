@@ -18,7 +18,7 @@ variable "availability_zones" {
 
 variable "zone_id" {
   type        = string
-  default     = "bst"
+  default     = ""
   description = "Route53 DNS Zone ID"
 }
 

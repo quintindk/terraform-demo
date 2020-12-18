@@ -5,6 +5,8 @@ data "template_file" "user_data" {
 
   vars = {
     welcome_message = "Bastion"
+    user_data = ""
+    //not ptovision route for the time being. 
     hostname        = "${var.hostname}.${join("", data.aws_route53_zone.domain.*.name)}"
     search_domains  = join("", data.aws_route53_zone.domain.*.name)
     ssh_user        = var.ssh_user
@@ -52,7 +54,8 @@ resource "aws_instance" "bastion_instance" {
   ami           = var.ami
   instance_type = var.instance_type
 
-  user_data = data.template_file.user_data[0].rendered
+  //user_data = data.template_file.user_data[0].rendered
+  user_data = var.user_data
 
   vpc_security_group_ids = compact(concat(aws_security_group.bastion_sg.*.id, [var.default_security_group]))
 
@@ -70,11 +73,11 @@ resource "aws_instance" "bastion_instance" {
     volume_size = var.root_block_device_volume_size
   }
 }
-
+/*
 module "dns" {
   source  = "../DNS"
   name    = var.hostname
   zone_id = var.zone_id
   ttl     = 60
   records = var.associate_public_ip_address ? aws_instance.bastion_instance.*.public_dns : aws_instance.bastion_instance.*.private_dns
-}
+}*/
