@@ -66,13 +66,14 @@ module "requestor_bastion" {
   global_tags                               = var.global_tags
   ami                                       = var.ami
   instance_type                             = var.instance_type
-  security_groups                           = compact(concat([module.requestor_network.aws_default_security_group], var.security_groups))
+  default_security_group                    = module.requestor_network.aws_default_security_group
   ingress_security_groups                   = var.bastion_sg_rules_ingress
   egress_security_groups                    = var.bastion_sg_rules_egress
-  subnets                                   = module.requestor_network.public_subnet_ids
+  subnets                                   = module.requestor_network.aws_public_subnets
   ssh_user                                  = var.ssh_user
+  hostname                                  = var.bastion_hostname
   key_name                                  = var.key_name
-  availability_zones                        = var.aws_azs
+  availability_zones                        = [var.aws_azs]
   region                                    = var.aws_region
   bastion_sg_rules_ingress                  = var.bastion_sg_rules_ingress
   bastion_sg_rules_egress                   = var.bastion_sg_rules_egress

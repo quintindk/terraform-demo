@@ -182,12 +182,15 @@ variable "s3_storage_name" {
 
 
 
-#################################### compute #####################################
+#################################### bastion #####################################
 variable "instance_type" {
   default = "t2.micro"
 }
 variable "ssh_user" {
   default = "ec2user"
+}
+variable "bastion_hostname"{
+default = "baston-host"
 }
 variable "ami" {
   default = "mi-084ef34fdfdd7384c"

@@ -1,12 +1,11 @@
 
 data "template_file" "user_data" {
-  count    = module.this.enabled ? 1 : 0
+  count    = 1
   template = var.user_data
 
   vars = {
-    user_data       = join("\n", var.user_data)
-    welcome_message = var.global_tags
-    hostname        = "${module.this.name}.${join("", data.aws_route53_zone.domain.*.name)}"
+    welcome_message = "Bastion"
+    hostname        = "${var.hostname}.${join("", data.aws_route53_zone.domain.*.name)}"
     search_domains  = join("", data.aws_route53_zone.domain.*.name)
     ssh_user        = var.ssh_user
   }
@@ -17,6 +16,37 @@ data "aws_route53_zone" "domain" {
   zone_id = var.zone_id
 }
 
+data "aws_iam_policy_document" "default" {
+  statement {
+    sid = ""
+
+    actions = [
+      "sts:AssumeRole",
+    ]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+
+    effect = "Allow"
+  }
+}
+
+resource "aws_iam_instance_profile" "default" {
+  count = 1
+  name  = "bastion_default_profile"
+  role  = aws_iam_role.default[0].name
+}
+
+resource "aws_iam_role" "default" {
+  count = 1
+  name  = "bastion_default_iam"
+  path  = "/"
+
+  assume_role_policy = data.aws_iam_policy_document.default.json
+}
+
 resource "aws_instance" "bastion_instance" {
   count         = 1
   ami           = var.ami
@@ -24,7 +54,7 @@ resource "aws_instance" "bastion_instance" {
 
   user_data = data.template_file.user_data[0].rendered
 
-  vpc_security_group_ids = compact(concat(aws_security_group.default.*.id, var.security_groups))
+  vpc_security_group_ids = compact(concat(aws_security_group.bastion_sg.*.id, [var.default_security_group]))
 
   iam_instance_profile        = aws_iam_instance_profile.default[0].name
   associate_public_ip_address = var.associate_public_ip_address
@@ -43,9 +73,8 @@ resource "aws_instance" "bastion_instance" {
 
 module "dns" {
   source  = "../DNS"
-  enabled = true
-  name    = module.this.name
+  name    = var.hostname
   zone_id = var.zone_id
   ttl     = 60
-  records = var.associate_public_ip_address ? aws_instance.default.*.public_dns : aws_instance.default.*.private_dns
+  records = var.associate_public_ip_address ? aws_instance.bastion_instance.*.public_dns : aws_instance.bastion_instance.*.private_dns
 }
