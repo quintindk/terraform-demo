@@ -1,10 +1,10 @@
-resource "aws_security_group" "compute_sg" {
-  name        = "compute_security-group"
+resource "aws_security_group" "bastion_sg" {
+  name        = "bastion_security-group"
   description = "Allow HTTP, HTTPS and SSH traffic"
   vpc_id = var.vpc_id
 
   dynamic "ingress" {
-    for_each = var.compute_sg_rules_ingress
+    for_each = var.bastion_sg_rules_ingress
     content {
         description = ingress.value.description
         from_port   = ingress.value.from_port
@@ -15,7 +15,7 @@ resource "aws_security_group" "compute_sg" {
   }
 
   dynamic "egress" {
-    for_each = var.compute_sg_rules_egress
+    for_each = var.bastion_sg_rules_egress
     content {
         from_port   = egress.value.from_port
         to_port     = egress.value.to_port
@@ -27,7 +27,7 @@ resource "aws_security_group" "compute_sg" {
   tags = merge(
     var.global_tags,
     {
-      "Name" = "compute_sg"
+      "Name" = "bastion_sg"
     },
   )
 }

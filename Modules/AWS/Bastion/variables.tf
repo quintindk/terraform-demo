@@ -1,12 +1,10 @@
 
 variable "global_tags" {}
 variable "vpc_id" {}
-variable "associate_public_ip_address" {}
-variable "root_block_device_encrypted" {}
-variable "root_block_device_volume_size" {}
 variable "key_name" {}
 
-variable "compute_sg_rules_ingress" {}
+variable "bastion_sg_rules_ingress" {}
+variable "bastion_sg_rules_egress" {}
 
 variable "region" {
   type        = string

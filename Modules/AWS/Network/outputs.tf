@@ -11,6 +11,9 @@ output "aws_nat_gateway" {
 output "aws_security_group" {
   value = aws_security_group.network_default_sg.id
 }
+output "aws_default_security_group" {
+  value = aws_security_group.network_default_sg.id
+}
 
 output "aws_private_subnet" {
   value = aws_subnet.network_private_subnet[0].id
