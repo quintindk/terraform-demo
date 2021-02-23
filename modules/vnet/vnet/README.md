@@ -38,27 +38,6 @@ The following variables are available:
 - __description__: An array of DNS servers to use in the VNET.
 - __default__: null
 
-### subnets
-
-- __description__: An array of subnets to configure on the VNET instance. See documentation for more information.
-- __default__: null
-
-#### Structure
-
-This variable makes use of the following structure. (Items marked with "*" are required)
-
-```
-[{
-    name              = string*
-    address_prefix    = string*
-    security_group_id = bool
-}]
-```
-
-- name: The name of the subnet.
-- address_prefix: The address prefix to use for the subnet.
-- security_group_id: The ID of the network security group to use on the subnet.
-
 ## Usage
 
 ```
@@ -71,10 +50,6 @@ module "vnet" {
   
   address_space = ["10.0.0.0/16"]
   dns_servers   = ["10.0.0.4", "10.0.0.5"]
-  subnets       = [{
-    name           = "subnet1"
-    address_prefix = "10.0.1.0/24"
-  }]
 }
 ```
 

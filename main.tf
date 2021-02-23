@@ -1,6 +1,3 @@
-variable "service_principal_id" {}
-variable "service_principal_secret" {}
-
 terraform {
   required_providers {
     azurerm = {
