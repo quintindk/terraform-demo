@@ -1,5 +1,5 @@
 resource "azurerm_network_security_group" "nsg" {
-  name                = "nsg-${var.base_name}-${var.group_name}-${var.environment}-${var.region}"
+  name                = var.environment != "" ? "nsg-${var.base_name}-${var.environment}" : "nsg-${var.base_name}"
   location            = var.region
   resource_group_name = var.rg_name
 
@@ -29,6 +29,6 @@ resource "azurerm_network_security_group" "nsg" {
 
   tags = merge({
     Environment = var.environment
-    Product     = var.base_name
+    Base        = var.base_name
   }, var.tags)
 }

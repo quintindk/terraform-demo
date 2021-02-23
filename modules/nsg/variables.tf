@@ -1,15 +1,15 @@
 # Global Variables
 variable "region" {
   description = "The region to deploy the resources in."
+  default     = "southafricanorth"
 }
 variable "environment" {
   description = "The environment that the resources are deployed for."
+  default     = ""
 }
 variable "base_name" {
   description = "The base name to use for all resources."
-}
-variable "group_name" {
-  description = "The name of this specific NSG."
+  default     = ""
 }
 variable "tags" {
   description = "The tags to add to the deployed resources."
@@ -24,7 +24,7 @@ variable "rg_name" {
 # NSG Vars
 variable "security_rules" {
   description = "An array of security rules to apply to the NSG. See documentation for more information."
-  default     = []
+  default     = null
   type        = list(object({
     name                         = string
     priority                     = number
