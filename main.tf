@@ -25,19 +25,19 @@ resource "azurerm_security_center_subscription_pricing" "security_centre" {
 module "rg_shared" {
     source = "./modules/rg"
     
-    region      = var.region
+    region      = local.region
     base_name   = "shared"
     environment = local.environment
-    tags        = local.tags
+    //tags        = local.tags
 }
 
 module "rg_network" {
     source = "./modules/rg"
     
-    region      = var.region
+    region      = local.region
     base_name   = "network"
     environment = local.environment
-    tags        = local.tags
+    //tags        = local.tags
 }
 
 
