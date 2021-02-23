@@ -15,6 +15,7 @@ provider "azurerm" {
 locals {
   base_name        = "demo"
   region           = "westeurope"
+  environment      = "demo"
 }
 
 resource "azurerm_security_center_subscription_pricing" "security_centre" {
@@ -22,7 +23,7 @@ resource "azurerm_security_center_subscription_pricing" "security_centre" {
 }
 
 module "rg_shared" {
-    source = "../modules/resource_group"
+    source = "./modules/resource_group"
     
     region      = var.region
     base_name   = "shared"
@@ -31,10 +32,12 @@ module "rg_shared" {
 }
 
 module "rg_network" {
-    source = "../modules/rg"
+    source = "./modules/rg"
     
     region      = var.region
     base_name   = "network"
     environment = local.environment
     tags        = local.tags
 }
+
+
