@@ -1,4 +1,4 @@
-# Terraform 
+# Terraform
 
 This demo serves as means to test an applicant's `terraform`, `git` and `github actions` skills. The following are a set of instructions to complete the deployment of a Azure Kubernetes Landing Zone in Azure.
 
@@ -16,7 +16,7 @@ The PR will be reviewed as part of the application. Please ensure that the terra
 
 You will need to complete the `main.tf` with the infrastructure as laid out in the following diagram. This shows the Azure Kubernetes landing zone with all components as it should be deployed for a customer.
 
-![hybrid-network-hub-spoke](hybrid-network-hub-spoke.png)
+![micro-services](micro-services.png)
 
 > There is no need to configure the VPN Gateway for on-prem connectivity as part of this exercise.
 
