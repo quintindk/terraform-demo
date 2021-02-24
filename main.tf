@@ -64,7 +64,7 @@ module "kv" {
   environment   = local.environment
 
   access_policies = {
-    identiteis = {
+    policies = {
       certificate_permissions  = ["get", "import", "list", "create"]
       key_permissions          = ["get", "create"]
       secret_permissions       = ["get", "set"]
