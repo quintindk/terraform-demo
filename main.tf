@@ -53,3 +53,22 @@ module "acr" {
     admin       = "true"
     sku         = "Standard"
 }
+
+module "kv" {
+  source = "./modules/kv"
+  
+
+  base_name     = local.base_name
+  region        = local.region
+  rg_name     = module.rg_shared.name
+  environment   = local.environment
+
+  access_policies = {
+    identiteis = {
+      certificate_permissions  = ["get", "import", "list", "create"]
+      key_permissions          = ["get", "create"]
+      secret_permissions       = ["get", "set"]
+      storage_permissions      = ["backup", "get", "list", "recover"]
+  }}
+  
+}
