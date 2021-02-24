@@ -16,6 +16,10 @@ locals {
   base_name        = "demo"
   region           = "westeurope"
   environment      = "demo"
+  tags             = {
+        base_name   = "demo"
+        environment = "demo"
+  }
 }
 
 resource "azurerm_security_center_subscription_pricing" "security_centre" {
@@ -28,7 +32,6 @@ module "rg_shared" {
     region      = local.region
     base_name   = "shared"
     environment = local.environment
-    //tags        = local.tags
 }
 
 module "rg_network" {
@@ -37,7 +40,16 @@ module "rg_network" {
     region      = local.region
     base_name   = "network"
     environment = local.environment
-    //tags        = local.tags
 }
 
 
+module "acr" {
+    source = "./modules/acr"
+
+    region      = local.region
+    environment = local.environment
+    base_name   = local.base_name
+    rg_name     = module.rg_shared.name
+    admin       = "true"
+    sku         = "Standard"
+}
