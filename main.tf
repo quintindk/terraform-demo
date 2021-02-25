@@ -94,3 +94,25 @@ module "apim" {
   rg_name          = module.rg_shared.name
 
 }
+
+module "aks" {
+  source = "./modules/aks/azure"
+  
+  region           = local.region
+  environment      = local.environment
+  base_name        = local.base_name
+  rg_name          = module.rg_shared.name
+
+  node_pools ={
+    nodepool ={
+    size           = "Standard_D2s_v3"
+    count          = 1
+    min_count      = 1
+    max_count      = 3
+    auto_scaling   = "true"
+    max_pods       = 10
+    node_taints    = null
+    disk_size      = 8
+    vnet_subnet_id = module.vnet.id
+}}
+}

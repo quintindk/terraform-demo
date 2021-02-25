@@ -62,10 +62,12 @@ variable "service_cidr" {
 }
 variable "identity_type" {
   description = "This is the Type of identity i.e. UserAssigned / SystemAssigned"
+  default = "SystemAssigned"
 }
 variable "user_assigned_ids" {
   type = string
   description = "The principal id of the user assigned ID"
+  default = null
 }
 variable "log_analytics_workspace_id" {
   description = "The ID of an existing log analytics workspace"
