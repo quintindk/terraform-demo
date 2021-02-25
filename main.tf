@@ -114,5 +114,28 @@ module "aks" {
     node_taints    = null
     disk_size      = 8
     vnet_subnet_id = module.vnet.id
-}}
+    } 
+  }
+}
+
+module "nsg" {
+  source = "./modules/nsg"
+
+  region           = local.region
+  environment      = local.environment
+  base_name        = local.base_name
+  rg_name          = module.rg_network.name
+
+  security_rules = [{
+        name                         = "${local.base_name}-nsg"
+        priority                     = "100"
+        direction                    = "Outbound"
+        access                       = "Allow"
+        protocol                     = "*"
+        source_port_ranges           = ["*"]
+        destination_port_ranges      = ["*"]
+        source_address_prefixes      = ["*"]
+        destination_address_prefixes = ["*"]
+  }]
+  
 }
