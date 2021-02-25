@@ -72,3 +72,25 @@ module "kv" {
   }}
   
 }
+
+module "vnet" {
+  source = "./modules/vnet/vnet"
+
+  region           = local.region
+  environment      = local.environment
+  base_name        = local.base_name
+  rg_name          = module.rg_network.name
+  address_spaces   = ["10.0.0.0/16"]
+  
+}
+
+
+module "apim" {
+  source = "./modules/apim/apim"
+  
+  region           = local.region
+  environment      = local.environment
+  base_name        = local.base_name
+  rg_name          = module.rg_shared.name
+
+}

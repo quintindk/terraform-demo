@@ -62,8 +62,8 @@ variable "identity_type" {
   default = "SystemAssigned"
 }
 
-variable "user_assigned_ids" {
-  type = list(string)
-  description = "The principal id of the user assigned ID"
-  default = []
-}
+# variable "user_assigned_ids" {
+#   type = list(string)
+#   description = "The principal id of the user assigned ID"
+#   default = []
+# }

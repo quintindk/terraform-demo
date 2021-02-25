@@ -30,7 +30,7 @@ XML
 
   identity {
     type          = var.identity_type
-    identity_ids  = var.user_assigned_ids
+    # identity_ids  = var.user_assigned_ids -- wondering if I this ?
   }
 
   tags = merge({
