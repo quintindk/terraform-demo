@@ -1,14 +1,14 @@
 resource "azurerm_sql_server" "sqlserver" {
-  name                         = "${var.base_name}-sqlserver"
+  name                         = "${var.base_name}sqlserver"
   resource_group_name          = var.rg_name
   location                     = var.region
   version                      = var.db_version
   administrator_login          = var.admin_login
   administrator_login_password = var.admin_pass
 
-
+}
 resource "azurerm_storage_account" "storageacc" {
-  name                     = "${var.base_name}-storageacc"
+  name                     = "${var.base_name}acc"
   resource_group_name      = var.rg_name
   location                 = var.region
   account_tier             = var.tier
@@ -16,7 +16,7 @@ resource "azurerm_storage_account" "storageacc" {
 }
 
 resource "azurerm_sql_database" "db" {
-  name                = "${var.base_name}-sqldatabase"
+  name                = "${var.base_name}sqldatabase"
   resource_group_name = var.rg_name
   location            = var.region
   server_name         = azurerm_sql_server.sqlserver.name

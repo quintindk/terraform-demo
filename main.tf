@@ -22,6 +22,14 @@ locals {
   }
 }
 
+// Generate a random password for th database server
+resource "random_string" "default" {
+  length      = 16
+  special     = true
+  min_upper   = 3
+  min_numeric = 4
+}
+
 resource "azurerm_security_center_subscription_pricing" "security_centre" {
   tier = "Free"
 }
@@ -160,3 +168,16 @@ module "logger" {
   instrumentation_key   = module.appinsights.instrumentation_key
 
 }
+
+module "db" {
+  source = "./modules/db"
+
+  environment           = local.environment
+  base_name             = local.base_name
+  rg_name               = module.rg_shared.name
+  region                = local.region
+
+  admin_pass            = random_string.default.result
+
+}
+

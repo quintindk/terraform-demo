@@ -26,25 +26,24 @@ variable "tier" {
   default = "Standard"
 }
 
-variable "tier" {
+variable "replication_type" {
   description = "replication type"
   default = "LRS"
 }
 
 variable "db_version" {
   description = "database version"
-  default = "LRS"
+  default = "12.0"
 }
 
 
 variable "admin_login" {
   description = "db admin login"
-  default = "LRS"
+  default = "dbadmin"
 }
 
 
 variable "admin_pass" {
   description = "db admin pass"
-  default = "LRS"
 }
 
