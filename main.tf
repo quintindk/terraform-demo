@@ -139,3 +139,24 @@ module "nsg" {
   }]
   
 }
+
+module "appinsights" {
+  source = "./modules/app-insights"
+  
+  region             = local.region
+  environment        = local.environment
+  base_name          = local.base_name
+  rg_name            = module.rg_shared.name
+  app_type   = "other"
+}
+
+module "logger" {
+  source = "./modules/apim/logger"
+  
+  environment           = local.environment
+  base_name             = local.base_name
+  rg_name               = module.rg_shared.name
+  apim_name             = module.apim.name
+  instrumentation_key   = module.appinsights.instrumentation_key
+
+}
