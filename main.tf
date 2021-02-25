@@ -181,3 +181,9 @@ module "db" {
 
 }
 
+
+resource "azurerm_key_vault_secret" "dblogin" {
+  name         = "dbadminpass"
+  value        = random_string.default.result
+  key_vault_id = module.kv.id
+}
