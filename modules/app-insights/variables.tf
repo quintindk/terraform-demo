@@ -1,4 +1,3 @@
-# Global Variables
 variable "base_name" {
     description = "Provide the name for the Azure Key Vault"
 }
@@ -11,19 +10,12 @@ variable "rg_name" {
 variable "environment" {
     description = "Environment"
 }
+
+variable "app_type" {
+    description = "Specifies the type of Application Insights to create"
+}
+
 variable "tags" {
     description     = "Description of tags"
     default     = {}
-}
-
-variable "access_policies" {
-    description     = "The list of managed identiteis"
-    type            = map(object({
-        certificate_permissions = list(string)
-        key_permissions         = list(string)
-        secret_permissions      = list(string)
-        storage_permissions     = list(string)
-    }))
-
-
 }

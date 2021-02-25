@@ -6,7 +6,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   identity {
     type                        = var.identity_type
-    user_assigned_identity_id   = var.user_assigned_ids 
   }
 
   addon_profile {

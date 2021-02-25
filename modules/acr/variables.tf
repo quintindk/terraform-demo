@@ -11,6 +11,7 @@ variable "base_name" {
 }
 variable "tags" {
   description = "The tags to add to the deployed resources."
+  default     = {}
 }
 
 # Resource Group
