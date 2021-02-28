@@ -50,3 +50,18 @@ module "rg_network" {
     tags        = var.tags
 }
 
+module "vnet" {
+  source = "./modules/vnet/vnet"
+
+  region = var.region
+  base_name = local.base_name
+  environment = var.environment
+
+  rg_name = module.rg_network.name
+
+  address_spaces = ["10.0.0.0/16"]
+
+  tags = var.tags
+}
+
+
