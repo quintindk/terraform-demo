@@ -22,7 +22,7 @@ resource "azurerm_security_center_subscription_pricing" "security_centre" {
 }
 
 module "rg_shared" {
-    source = "../modules/resource_group"
+    source = "./modules/rg"
     
     region      = var.region
     base_name   = "shared"
@@ -31,7 +31,7 @@ module "rg_shared" {
 }
 
 module "rg_network" {
-    source = "../modules/rg"
+    source = "./modules/rg"
     
     region      = var.region
     base_name   = "network"
