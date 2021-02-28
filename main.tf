@@ -14,7 +14,6 @@ provider "azurerm" {
 # Local Vars
 locals {
   base_name        = "demo"
-  region           = "westeurope"
 }
 
 resource "azurerm_security_center_subscription_pricing" "security_centre" {
@@ -26,8 +25,8 @@ module "rg_shared" {
     
     region      = var.region
     base_name   = "shared"
-    environment = local.environment
-    tags        = local.tags
+    environment = var.environment
+    tags        = var.tags
 }
 
 module "rg_network" {
@@ -35,6 +34,6 @@ module "rg_network" {
     
     region      = var.region
     base_name   = "network"
-    environment = local.environment
-    tags        = local.tags
+    environment = var.environment
+    tags        = var.tags
 }
