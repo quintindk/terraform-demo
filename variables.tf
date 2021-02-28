@@ -10,8 +10,6 @@ variable "environment" {
 
 variable "tags" {
   description = "Tags to associate with Azure resource groups."
-  type = object({
-    division = string
-    environment = string
-  })
+  type = map(string)
+  default {}
 }

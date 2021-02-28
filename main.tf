@@ -1,3 +1,15 @@
+/**
+ * # Deploy the Tangent Demo infrastructure.
+ *
+ * TODO:
+ *
+ * - [ ] Add modules to main.tf
+ * - [ ] Add Azure Firewall module
+ * - [ ] Add Azure Monitor module
+ * - [ ] Add Azure SQL module
+ *
+ */
+
 terraform {
   required_providers {
     azurerm = {
@@ -37,3 +49,4 @@ module "rg_network" {
     environment = var.environment
     tags        = var.tags
 }
+
