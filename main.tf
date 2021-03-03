@@ -5,6 +5,7 @@
  *
  * - [ ] Add modules to main.tf
  * - [x] Add Azure Firewall module
+ * - [ ] Add firewall rules?
  * - [ ] Add Azure Monitor module
  *        What should we monitor?
  * - [ ] Add Azure SQL module
