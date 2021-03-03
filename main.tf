@@ -4,9 +4,12 @@
  * TODO:
  *
  * - [ ] Add modules to main.tf
- * - [ ] Add Azure Firewall module
+ * - [x] Add Azure Firewall module
  * - [ ] Add Azure Monitor module
+ *        What should we monitor?
  * - [ ] Add Azure SQL module
+ *
+ * - [ ] Add github actions file.
  *
  */
 
