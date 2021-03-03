@@ -136,3 +136,25 @@ module "peering" {
   forward_rg_name = module.rg_network.name
   reverse_rg_name = module.rg_network.name
 }
+
+module "aks" {
+  source = "./modules/aks/azure"
+
+  base_name = local.base_name
+  environment = var.environment
+  region = var.region
+  rg_name = var.rg_name
+
+  node_pools = [{
+    name = "nodepool"
+    size = "Standard_D2s_v3"
+    count = 3
+    min_count = 3
+    max_count = 10
+    auto_scaling = true
+    max_pods = 15
+    node_taints = null
+    disk_size = 30
+    module.vnet.id
+  }]
+}
