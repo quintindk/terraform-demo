@@ -1,11 +1,13 @@
 variable "region" {
   description = "The region where resources will be deployed."
   type        = string
+  default = "westeurope"
 }
 
 variable "environment" {
   description = "The environment where resources are deployed."
   type        = string
+  default = "development"
 }
 
 variable "tags" {

@@ -94,3 +94,50 @@ module "subnet" {
 
   nsg_id = module.nsg.id
 }
+
+# Firewall VNET.
+module "fw_vnet" {
+  source = "./modules/vnet/vnet"
+
+  region      = var.region
+  base_name   = local.base_name
+  environment = var.environment
+
+  rg_name = module.rg_network.name
+
+  address_spaces = ["10.1.0.0/16"]
+
+  tags = var.tags
+}
+
+# Firewall Subnet
+module "fw_subnet" {
+  source = "./modules/vnet/subnet_nsg"
+
+  rg_name          = module.rg_network.name
+  vnet_name        = module.fw_vnet.name
+  address_prefixes = ["10.0.2.0/24"]
+
+  nsg_id = module.nsg.id
+}
+
+module "fw" {
+  source = "./modules/afw"
+
+  base_name = local.base_name
+  environment = var.environment
+  rg_name = module.rg_network.name
+  subnet_id = module.fw_subnet.id
+  
+}
+
+module "peering" {
+  source = "./modules/vnet/peering"
+
+  source_vnet_name = module.vnet.name
+  remote_vnet_name = module.fw_vnet.name
+  source_vnet_id = module.vnet.id
+  remote_vnet_id = moudle.fw_vnet.id
+  forward_rg_name = module.rg_network.name
+  reverse_rg_name = module.rg_network.name
+}
