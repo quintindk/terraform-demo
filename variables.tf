@@ -13,5 +13,5 @@ variable "environment" {
 variable "tags" {
   description = "Tags to associate with Azure resource groups."
   type        = map(string)
-  default {}
+  default = {}
 }

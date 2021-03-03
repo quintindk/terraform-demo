@@ -23,7 +23,10 @@ variable "fw_pip_sku" {
   default = "Standard"
   type = string
 }
-variable "subnet_id" {
-  description = "The ID for the firewall subnet."
-  type = string
+variable "vnet_name" {
+  description = "The name of the virtual network for the firewall."
+}
+variable "address_prefixes" {
+  description = "The address prefix to use for the subnet."
+  type = list(string)
 }

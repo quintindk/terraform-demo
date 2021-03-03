@@ -1,3 +1,10 @@
+resource "azurerm_subnet" "fw_subnet" {
+  name = "AzureFirewallSubnet"
+  resource_group_name = var.rg_name
+  virtual_network_name = var.vnet_name
+  address_prefixes = var.address_prefixes
+}
+
 resource "azurerm_public_ip" "fw_pip" {
   name = var.environment != "" ? "fw-pip-${var.base_name}-${var.environment}" : "fw-pip-${var.base_name}"
   location = var.region
@@ -13,7 +20,7 @@ resource "azurerm_firewall" "fw" {
 
   ip_configuration {
     name = var.environment != "" ? "pip-config-${var.base_name}-${var.environment}" : "pip-config-${var.base_name}"
-    subnet_id = var.subnet_id
+    subnet_id = azurerm_subnet.fw_subnet.id
     public_ip_address_id = azurerm_public_ip.fw_pip.id
   }
 }
