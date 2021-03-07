@@ -3,14 +3,16 @@
  *
  * TODO:
  *
- * - [ ] Add modules to main.tf
+ * - [x] Add modules to main.tf
  * - [x] Add Azure Firewall module
  * - [ ] Add firewall rules
  * - [x] Add AKS
  * - [x] Add API management
- * - [ ] Add App Insights module
- * - [ ] Add API management logger
- * - [ ] Add Azure SQL module
+ * - [x] Add App Insights module
+ * - [x] Add API management logger
+ * - [x] Add Azure SQL module
+ *
+ * - [ ] Update the docs
  *
  * - [ ] Add github actions file.
  *
@@ -230,4 +232,15 @@ module "kv" {
       storage_permissions     = ["Get", "Set"]
     }
   }
+}
+
+# Azure SQL
+module "sql" {
+  source = "./modules/sql"
+
+  base_name    = local.base_name
+  environment  = var.environment
+  region       = var.region
+  rg_name      = module.rg_shared.name
+  key_vault_id = module.kv.id
 }
