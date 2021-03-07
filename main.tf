@@ -20,7 +20,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "azurerm"
-      version = "=2.20.0"
+      version = "=2.50.0"
     }
   }
 }
@@ -153,10 +153,10 @@ module "aks" {
   base_name = local.base_name
   environment = var.environment
   region = var.region
-  rg_name = var.rg_name
+  rg_name = module.rg_network.name
 
-  node_pools = [{
-    name = "nodepool"
+  node_pools = {
+    nodepool = {
     size = "Standard_D2s_v3"
     count = 3
     min_count = 3
@@ -165,8 +165,8 @@ module "aks" {
     max_pods = 15
     node_taints = null
     disk_size = 30
-    module.vnet.id
-  }]
+    vnet_subnet_id = module.subnet.id
+  }}
 }
 
 
