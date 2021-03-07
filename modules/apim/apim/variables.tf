@@ -29,7 +29,7 @@ variable "publisher_name" {
 
 variable "publisher_email" {
   description = "Publisher email for the API management configuration"
-  default = "info@tangetnsolutions.co.za"
+  default = "info@tangentsolutions.co.za"
 }
 
 variable "sku_name" {
