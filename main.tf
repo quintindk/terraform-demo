@@ -7,7 +7,7 @@
  * - [x] Add Azure Firewall module
  * - [ ] Add firewall rules
  * - [x] Add AKS
- * - [ ] Add API management
+ * - [x] Add API management
  * - [ ] Add App Insights module
  * - [ ] Add API management logger
  * - [ ] Add Azure SQL module
@@ -185,6 +185,16 @@ module "acr" {
 # Azure API Management.
 module "apim" {
   source = "./modules/apim/apim"
+
+  base_name   = local.base_name
+  environment = var.environment
+  region      = var.region
+  rg_name     = module.rg_shared.name
+}
+
+# Applications Insights.
+module "ai" {
+  source = "./modules/ai"
 
   base_name   = local.base_name
   environment = var.environment
