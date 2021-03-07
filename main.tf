@@ -5,9 +5,11 @@
  *
  * - [ ] Add modules to main.tf
  * - [x] Add Azure Firewall module
- * - [ ] Add firewall rules?
- * - [ ] Add Azure Monitor module
- *        What should we monitor?
+ * - [ ] Add firewall rules
+ * - [x] Add AKS
+ * - [ ] Add API management
+ * - [ ] Add App Insights module
+ * - [ ] Add API management logger
  * - [ ] Add Azure SQL module
  *
  * - [ ] Add github actions file.
@@ -36,6 +38,7 @@ resource "azurerm_security_center_subscription_pricing" "security_centre" {
   tier = "Free"
 }
 
+# Shared resource group.
 module "rg_shared" {
   source = "./modules/rg"
 
@@ -45,6 +48,7 @@ module "rg_shared" {
   tags        = var.tags
 }
 
+# Network resource group.
 module "rg_network" {
   source = "./modules/rg"
 
@@ -54,6 +58,7 @@ module "rg_network" {
   tags        = var.tags
 }
 
+# Virtual network for the Kubernetes cluster.
 module "vnet" {
   source = "./modules/vnet/vnet"
 
@@ -68,6 +73,7 @@ module "vnet" {
   tags = var.tags
 }
 
+# Network Security Group for the AKS network.
 module "nsg" {
   source = "./modules/nsg"
 
@@ -89,6 +95,7 @@ module "nsg" {
   }]
 }
 
+# Subnet for the AKS cluster.
 module "subnet" {
   source = "./modules/vnet/subnet_nsg"
 
@@ -116,8 +123,9 @@ module "fw_vnet" {
   tags = var.tags
 }
 
+# Azure Firewall.
 module "fw" {
-  source = "./modules/afw"
+  source = "./modules/afw/fw"
 
   base_name = local.base_name
   environment = var.environment
@@ -126,6 +134,7 @@ module "fw" {
   address_prefixes = ["10.1.1.0/24"] 
 }
 
+# Network peering for the AKS and Firewall networks.
 module "peering" {
   source = "./modules/vnet/peering"
 
@@ -137,6 +146,7 @@ module "peering" {
   reverse_rg_name = module.rg_network.name
 }
 
+# Azure Kubernetes Service cluster.
 module "aks" {
   source = "./modules/aks/azure"
 
@@ -158,3 +168,5 @@ module "aks" {
     module.vnet.id
   }]
 }
+
+
