@@ -14,12 +14,12 @@ variable "environment" {
 variable "tags" {
     description     = "Description of tags"
     type            = map
+    default = {}
 }
 
 variable "access_policies" {
     description     = "The list of managed identiteis"
     type            = map(object({
-        object_id               = string
         certificate_permissions = list(string)
         key_permissions         = list(string)
         secret_permissions      = list(string)

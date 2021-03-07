@@ -201,3 +201,33 @@ module "ai" {
   region      = var.region
   rg_name     = module.rg_shared.name
 }
+
+# Azure API Management Logger.
+module "logger" {
+  source = "./modules/apim/logger"
+
+  apim_name           = module.apim.name
+  base_name           = local.base_name
+  environment         = var.environment
+  rg_name             = module.rg_shared.name
+  instrumentation_key = module.ai.instrumentation_key
+}
+
+# Key Vault
+module "kv" {
+  source = "./modules/kv"
+
+  base_name   = local.base_name
+  environment = var.environment
+  region      = var.region
+  rg_name     = module.rg_shared.name
+
+  access_policies = {
+    access_policy = {
+      certificate_permissions = []
+      key_permissions         = ["Get", "Create"]
+      secret_permissions      = ["Get", "Set"]
+      storage_permissions     = ["Get", "Set"]
+    }
+  }
+}
