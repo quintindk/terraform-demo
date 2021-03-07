@@ -182,4 +182,12 @@ module "acr" {
 
 }
 
+# Azure API Management.
+module "apim" {
+  source = "./modules/apim/apim"
 
+  base_name   = local.base_name
+  environment = var.environment
+  region      = var.region
+  rg_name     = module.rg_shared.name
+}

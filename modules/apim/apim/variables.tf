@@ -65,5 +65,5 @@ variable "identity_type" {
 variable "user_assigned_ids" {
   type = list(string)
   description = "The principal id of the user assigned ID"
-  default = []
+  default = null
 }
