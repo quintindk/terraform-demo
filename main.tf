@@ -99,8 +99,8 @@ module "nsg" {
 module "subnet" {
   source = "./modules/vnet/subnet_nsg"
 
-  base_name = local.base_name
-  environment = var.environment
+  base_name        = local.base_name
+  environment      = var.environment
   rg_name          = module.rg_network.name
   vnet_name        = module.vnet.name
   address_prefixes = ["10.0.1.0/24"]
@@ -127,11 +127,11 @@ module "fw_vnet" {
 module "fw" {
   source = "./modules/afw/fw"
 
-  base_name = local.base_name
-  environment = var.environment
-  rg_name = module.rg_network.name
-  vnet_name = module.fw_vnet.name
-  address_prefixes = ["10.1.1.0/24"] 
+  base_name        = local.base_name
+  environment      = var.environment
+  rg_name          = module.rg_network.name
+  vnet_name        = module.fw_vnet.name
+  address_prefixes = ["10.1.1.0/24"]
 }
 
 # Network peering for the AKS and Firewall networks.
@@ -140,33 +140,46 @@ module "peering" {
 
   source_vnet_name = module.vnet.name
   remote_vnet_name = module.fw_vnet.name
-  source_vnet_id = module.vnet.id
-  remote_vnet_id = module.fw_vnet.id
-  forward_rg_name = module.rg_network.name
-  reverse_rg_name = module.rg_network.name
+  source_vnet_id   = module.vnet.id
+  remote_vnet_id   = module.fw_vnet.id
+  forward_rg_name  = module.rg_network.name
+  reverse_rg_name  = module.rg_network.name
 }
 
 # Azure Kubernetes Service cluster.
 module "aks" {
   source = "./modules/aks/azure"
 
-  base_name = local.base_name
+  base_name   = local.base_name
   environment = var.environment
-  region = var.region
-  rg_name = module.rg_network.name
+  region      = var.region
+  rg_name     = module.rg_network.name
 
   node_pools = {
     nodepool = {
-    size = "Standard_D2s_v3"
-    count = 3
-    min_count = 3
-    max_count = 10
-    auto_scaling = true
-    max_pods = 15
-    node_taints = null
-    disk_size = 30
-    vnet_subnet_id = module.subnet.id
-  }}
+      size           = "Standard_D2s_v3"
+      count          = 3
+      min_count      = 3
+      max_count      = 10
+      auto_scaling   = true
+      max_pods       = 15
+      node_taints    = null
+      disk_size      = 30
+      vnet_subnet_id = module.subnet.id
+  } }
+}
+
+# Azure Container Registry.
+module "acr" {
+  source = "./modules/acr"
+
+  base_name   = local.base_name
+  environment = var.environment
+  region      = var.region
+  rg_name     = module.rg_shared.name
+  sku         = "Standard"
+  tags        = var.tags
+
 }
 
 
