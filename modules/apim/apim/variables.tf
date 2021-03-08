@@ -29,7 +29,7 @@ variable "publisher_name" {
 
 variable "publisher_email" {
   description = "Publisher email for the API management configuration"
-  default = "info@tangetnsolutions.co.za"
+  default = "info@tangentsolutions.co.za"
 }
 
 variable "sku_name" {
@@ -65,5 +65,5 @@ variable "identity_type" {
 variable "user_assigned_ids" {
   type = list(string)
   description = "The principal id of the user assigned ID"
-  default = []
+  default = null
 }

@@ -22,6 +22,7 @@ variable "rg_name" {
 variable "admin" {
   description = "Whether admin access should be enabled or not."
   type        = bool
+  default = false
 }
 
 variable "sku" {

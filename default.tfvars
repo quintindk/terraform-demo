@@ -1,0 +1,4 @@
+region = "westeurope"
+
+environment = "development"
+
