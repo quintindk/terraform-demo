@@ -238,9 +238,9 @@ module "kv" {
 module "sql" {
   source = "./modules/sql"
 
-  base_name = local.base_name
-  environment = var.environment
-  region = var.region
-  rg_name = module.rg_shared.name
+  base_name    = local.base_name
+  environment  = var.environment
+  region       = var.region
+  rg_name      = module.rg_shared.name
   key_vault_id = module.kv.id
 }
