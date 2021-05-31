@@ -14,7 +14,7 @@ provider "azurerm" {
 # Local Vars
 locals {
   base_name        = "demo"
-  region           = "westeurope"
+  region           = "southafrica"
 }
 
 resource "azurerm_security_center_subscription_pricing" "security_centre" {
