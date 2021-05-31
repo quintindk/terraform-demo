@@ -13,8 +13,8 @@ provider "azurerm" {
 
 # Local Vars
 locals {
-  base_name        = "demo"
-  region           = "westeurope"
+  base_name        = "Assesment"
+  region           = "southafrica"
 }
 
 resource "azurerm_security_center_subscription_pricing" "security_centre" {
@@ -38,3 +38,11 @@ module "rg_network" {
     environment = local.environment
     tags        = local.tags
 }
+  module "nsg_network" {
+    source = "../modules/resource_group"
+    
+    region      = var.region
+    base_name   = "shared"
+    environment = local.environment
+    tags        = local.tags
+  }
